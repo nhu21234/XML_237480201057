@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách môn học</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding-top: 40px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 24px;
+            color: #2c3e50;
+        }
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            max-width: 800px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 1px solid #dee2e6; /* Viền bao quanh ngoài bảng */
+        }
+        th {
+            background-color: #34495e;
+            color: #ffffff;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            padding: 12px 16px;
+            border-bottom: 3px solid #2c3e50;
+            border-right: 1px solid #4a627a; /* Sọc kẻ dọc trên tiêu đề */
+            text-align: left;
+        }
+        th:last-child {
+            border-right: none; /* Bỏ sọc kẻ dọc ở cột cuối cùng */
+        }
+        th:first-child {
+            text-align: center;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #dee2e6;
+            border-right: 1px solid #dee2e6;  
+            font-size: 15px;
+        }
+
+        td:last-child {
+            border-right: none;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        tbody tr:hover {
+            background-color: #eef2f5;
+            transition: background-color 0.2s ease;
+        }
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+        td:first-child {
+            text-align: center;
+            font-weight: bold;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+    <h2>Danh sách môn học</h2>
+    <table id="tblSubject">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Tên môn học</th>
+                <th>Nhà xuất bản</th>
+                <th>Tác giả</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        fetch('dsmonhoc.xml')
+            .then(response => response.text())
+            .then(data => {
+                let parser = new DOMParser();
+                let xmlDoc = parser.parseFromString(data, "text/xml");
+                let subjects = xmlDoc.getElementsByTagName("monhoc");
+                let tbody = document.querySelector("#tblSubject tbody");
+                
+                for (let i = 0; i < subjects.length; i++) {
+                    let tenmon = subjects[i].getElementsByTagName("tenmon")[0].textContent;
+                    let nhaxuatban = subjects[i].getElementsByTagName("nhaxuatban")[0].textContent;
+                    let tacgia = subjects[i].getElementsByTagName("tacgia")[0].textContent;
+                    
+                    let row = `<tr>
+                        <td>${i + 1}</td>
+                        <td>${tenmon}</td>
+                        <td>${nhaxuatban}</td>
+                        <td>${tacgia}</td>
+                    </tr>`;
+                    tbody.innerHTML += row;
+                }
+            })
+            .catch(error => console.error("Lỗi đọc file XML:", error));
+    </script>
+</body>
+</html>

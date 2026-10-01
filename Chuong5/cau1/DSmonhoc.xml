@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dsmonhoc>
+    <monhoc>
+        <tenmon>Lập trình Web</tenmon>
+        <nhaxuatban>Minh Khai</nhaxuatban>
+        <tacgia>Hoàng Hôn</tacgia>
+    </monhoc>
+    <monhoc>
+        <tenmon>Phân tích TK Hệ thống</tenmon>
+        <nhaxuatban>Giáo dục</nhaxuatban>
+        <tacgia>Phương Anh</tacgia>
+    </monhoc>
+    <monhoc>
+        <tenmon>Ngôn ngữ lập trình</tenmon>
+        <nhaxuatban>Minh Khai</nhaxuatban>
+        <tacgia>Phước Nghĩa</tacgia>
+    </monhoc>
+    <monhoc>
+        <tenmon>Mạng máy tính</tenmon>
+        <nhaxuatban>ĐH Cần Thơ</nhaxuatban>
+        <tacgia>Ngọc Lợi</tacgia>
+    </monhoc>
+    <monhoc>
+        <tenmon>Lập trình Python</tenmon>
+        <nhaxuatban>Giáo dục</nhaxuatban>
+        <tacgia>Khánh Luân</tacgia>
+    </monhoc>
+</dsmonhoc>

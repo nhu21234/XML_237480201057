@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Cập nhật Hồ sơ Giảng viên</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding-top: 40px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 12px;
+            color: #2c3e50;
+        }
+        .notification {
+            color: #155724;
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            max-width: 800px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 1px solid #dee2e6;
+        }
+
+        th {
+            background-color: #34495e;
+            color: #ffffff;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            padding: 12px 16px;
+            border-bottom: 3px solid #2c3e50;
+            border-right: 1px solid #4a627a;
+            text-align: left;
+        }
+
+        th:last-child {
+            border-right: none;
+        }
+
+        th:first-child {
+            text-align: center;
+        }
+
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #dee2e6; 
+            border-right: 1px solid #dee2e6; 
+            font-size: 15px;
+        }
+
+        td:last-child {
+            border-right: none; 
+        }
+
+      
+        tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        tbody tr:hover {
+            background-color: #eef2f5;
+            transition: background-color 0.2s ease;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+     
+        td:first-child {
+            text-align: center;
+            font-weight: bold;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+    <h2>Danh sách Giảng viên </h2>
+    <div id="message" class="notification"></div>
+
+    <table id="tblGiangVien">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Họ tên giảng viên</th>
+                <th>Ngành</th>
+                <th>Đơn vị</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        fetch('hosogiangvien.xml')
+            .then(response => response.text())
+            .then(data => {
+                let parser = new DOMParser();
+                let xmlDoc = parser.parseFromString(data, "text/xml");
+                let list = xmlDoc.getElementsByTagName("giangvien");
+                
+                // Cập nhật thông tin giảng viên
+                for (let i = 0; i < list.length; i++) {
+                    let hotenNode = list[i].getElementsByTagName("hoten")[0];
+                    if (hotenNode && hotenNode.textContent.trim() === "Phạm Thanh Loan") {
+                        let donviNode = list[i].getElementsByTagName("donvi")[0];
+                        if (donviNode) {
+                            donviNode.textContent = "Cơ bản";
+                            document.getElementById("message").innerText = "✓ Đã cập nhật giảng viên Phạm Thanh Loan";
+                        }
+                    }
+                }
+
+                // Hiển thị ra bảng
+                let tbody = document.querySelector("#tblGiangVien tbody");
+                for (let i = 0; i < list.length; i++) {
+                    let hoten = list[i].getElementsByTagName("hoten")[0].textContent;
+                    let nganh = list[i].getElementsByTagName("nganh")[0].textContent;
+                    let donvi = list[i].getElementsByTagName("donvi")[0].textContent;
+                    
+                    let row = `<tr>
+                        <td>${i + 1}</td>
+                        <td>${hoten}</td>
+                        <td>${nganh}</td>
+                        <td>${donvi}</td>
+                    </tr>`;
+                    tbody.innerHTML += row;
+                }
+            })
+            .catch(error => console.error("Lỗi đọc/cập nhật XML:", error));
+    </script>
+</body>
+</html>
